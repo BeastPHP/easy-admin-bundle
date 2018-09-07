@@ -1,0 +1,71 @@
+{% extends '@BeastEasyAdmin/layouts/base.html.twig' %}
+{% block body %}
+    <main class="main">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">控制面板</li>
+        </ol>
+        <div class="container-fluid">
+            <div class='animated fadeIn'>
+                <div class='row'>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="card">
+                            <div class="card-header text-white bg-primary">
+                                <div class="font-weight-bold">
+                                    <span>欢迎你，{{ user.username }}</span>
+                                </div>
+                                <div>
+                                    <span><small>登录IP</small></span>
+                                    <span class="float-right">
+                                        <small>{{ user.getLoginIp }}</small>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span><small>登录时间</small></span>
+                                    <span class="float-right">
+                                        <small>{{ user.getCurrentLogin|date('Y-m-d H:i:s') }}</small>
+                                    </span>
+                                </div>
+                                {% if user.getLastLogin %}
+                                    <div>
+                                        <span><small>上次登录时间</small></span>
+                                        <span class="float-right">
+                                        <small>{{ user.getLastLogin|date('Y-m-d H:i:s') }}</small>
+                                    </span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="card-body py-3 px-4">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <strong>{{ remainDays }}</strong>
+                                        <br>
+                                        <span class="text-muted">
+                                            <small>剩余可用日期</small>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body py-0 px-4 b-t-1">
+                                <div class="row">
+                                    <div class="col-6 b-r-1 py-3">
+                                        <div class="font-weight-bold">{{ phpVersion }}</div>
+                                        <div class="text-muted">
+                                            <small>PHP Version</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 py-3 text-right">
+                                        <div class="font-weight-bold">{{ symfonyVersion }}</div>
+                                        <div class="text-muted">
+                                            <small>Frame Version</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+{% endblock %}
+{% block script %}
+{% endblock %}

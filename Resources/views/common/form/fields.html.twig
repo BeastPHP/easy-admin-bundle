@@ -1,0 +1,496 @@
+{# Widgets #}
+{%- block expacta_images_upload_widget -%}
+    <div class="zj-images-div">
+        <ul class="images-list {{ id }}images-list">
+            {% for uploaded_image in uploaded_images %}
+                <li id="{{ uploaded_image.id }}">
+                    <p class="zj-shadow"></p>
+                    <div class="zj-loader"><p class="loader"></p></div>
+                    <p class="title">{{ uploaded_image.name }}</p>
+                    <p class="imgWrap"><img src="{{ uploaded_image.url }}"/></p>
+                    <input class="image-name" type="hidden" name="{{ id }}[]" value="{{ uploaded_image.name }}">
+                    <div class="file-panel"><span class="cancel">删除</span></div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="form-group">
+        {%- if attr.size_tip is defined -%}
+            <span>推荐图片尺寸: {{ attr.size_tip }}&nbsp;</span>
+        {%- endif -%}
+        <div id="{{ id }}" class="test">
+            <div id="uploader">
+                <div class="queueList">
+                    <div id="dndArea" class="placeholder">
+                        <div id="filePicker"></div>
+                    </div>
+                </div>
+                <div class="statusBar" style="display:none;">
+                    <div class="progress">
+                        <span class="text">0%</span>
+                        <span class="percentage"></span>
+                    </div>
+                    <div class="info"></div>
+                    <div class="btns">
+                        <div id="filePicker2"></div>
+                        <div class="uploadBtn">开始上传</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <link href="/public/webuploader-0.1.5/webuploader.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/public/webuploader-0.1.5/webuploader.min.js"></script>
+    <script type="text/javascript" src="/public/webuploader-0.1.5/upload.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#{{ id }}").imageUpload({
+                id: '{{ id }}',
+
+                // 上传文件地址
+                server: "{{ image_upload_url }}",
+
+                // 删除文件地址
+                url: "{{ image_delete_url }}",
+
+                // 图片容器
+                queueSelector: '.{{ id }}images-list',
+
+                //最大上传文件个数
+                fileNumLimit: {{ maximum_file_number }},
+
+                //选择文件按钮
+                pick: "#filePicker",
+
+                //继续添加按钮
+                pick2: "#filePicker2",
+
+                //图片上传完成回调函数，返回当前上传li
+                imageUploadSuccess: function (li) {
+                },
+
+                imageDelete: function () {
+                },
+
+                //图片列表滚动条div
+                imageDiv: ".zj-images-div"
+
+            });
+
+            $(".btn-toolbar").find(".btn-primary").bind("click", function cli() {
+                $.fn.imgSave({
+                    obj: $(".btn-toolbar").find(".btn-primary"),
+                    getFileSum: function (sum) {
+                        if (sum > 0) {
+                            $(".btn-toolbar").find(".btn-primary").unbind("click", cli);
+                            return false;
+                        }
+                    }
+                });
+            });
+
+        })
+    </script>
+{%- endblock expacta_images_upload_widget -%}
+
+{%- block form_widget -%}
+    {% if compound %}
+        {{- block('form_widget_compound') -}}
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{%- endblock form_widget -%}
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {% if type == 'date' %}
+        <input type="text" id="{{ id }}"
+               class="form-control datepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}
+               style="width:110px; display:inline-block"/> <span style="cursor:pointer;"><i
+                class="glyphicon glyphicon-remove"></i></span>
+    {% elseif type == 'datetime' %}
+        <br>
+        <input type="text" id="{{ id }}"
+               class="form-control huanyue_date_time {% if errors.valid %}is-invalid{% elseif form.vars.submitted %}is-valid{% endif %}" {{ block('widget_attributes') }} {% if value is not empty %}{% set date = value|date('Y-m-d H:i:s') %}value="{{ date }}" {% endif %}
+               style="display: inline-block;" readonly='readonly'/>
+    {% elseif type == 'file' %}
+        <input type="{{ type }}"
+               class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% if attr.file_url is defined and attr.file_url != '#' %}
+            <a href="{{ attr.file_url }}">已上传的文件</a>
+        {% endif %}
+
+        {% if attr.image_url is defined and attr.image_url != '#' %}
+            <a href="{{ attr.image_url }}" class="{% if attr.class is defined %}{{ attr.class }}{% endif %}"
+               data-toggle="colorbox">
+                <img src="{{ attr.image_url }}" height="32" style=" margin-left:4px"/>
+            </a>
+        {% endif %}
+        {%- if attr.size_tip is defined -%}
+            <span>&nbsp;图片尺寸: {{ attr.size_tip }}&nbsp;</span>
+        {%- endif -%}
+    {% else %}
+        <input type="{{ type }}"
+               class="form-control {% if attr.class is defined %}{{ attr.class }}{% endif %} {% if errors.valid %}is-invalid{% elseif form.vars.submitted %}is-valid{% endif %}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {%- if attr.tip is defined -%}
+            <span style="padding-left: 5px;">{{ attr.tip }}</span>
+        {%- endif -%}
+    {% endif %}
+{%- endblock form_widget_simple -%}
+
+{%- block form_widget_compound -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- if form.parent is empty -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
+{%- block collection_widget -%}
+    {% if prototype is defined %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+    {{- block('form_widget') -}}
+{%- endblock collection_widget -%}
+
+{%- block textarea_widget -%}
+    <textarea class="form-control {% if errors.valid %}is-invalid{% elseif form.vars.submitted %}is-valid{% endif %}" {{ block('widget_attributes') }}>{{ value }}</textarea>
+{%- endblock textarea_widget -%}
+
+{%- block choice_widget -%}
+    {% if expanded %}
+        {{- block('choice_widget_expanded') -}}
+    {% else %}
+        {% if attr.choice_type is defined and attr.choice_type == 'filter' %}
+            {{- block('choice_widget_filter') -}}
+        {% else %}
+            {{- block('choice_widget_collapsed') -}}
+        {% endif %}
+    {% endif %}
+{%- endblock choice_widget -%}
+
+{%- block choice_widget_expanded -%}
+    <div {{ block('widget_container_attributes') }}
+            {% if errors.valid %}style='border: 1px solid #f86c6b; height: 37px;{% endif %}'>
+        {% for child in form %}
+            <div class="form-check form-check-inline mr-1">
+                {{- form_widget(child) -}}
+                {{- form_label_for_radio_element(child) -}}
+            </div>
+        {% endfor %}
+    </div>
+{%- endblock choice_widget_expanded -%}
+
+{%- block choice_widget_collapsed -%}
+    <select class="form-control {% if errors.valid %}is-invalid{% elseif form.vars.submitted %}is-valid{% endif %}" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if not required -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>-- 请选择 --</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+    {%- if attr.tip is defined -%}
+        <span style="padding-left: 5px;">{{ attr.tip }}</span>
+    {%- endif -%}
+{%- endblock choice_widget_collapsed -%}
+
+{%- block choice_widget_filter -%}
+    {%- if required and empty_value is none and not empty_value_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <select class="form-control form-control-w25" {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if empty_value is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_filter -%}
+
+{%- block choice_widget_options -%}
+    {% for group_label, choice in options %}
+        {%- if choice is iterable -%}
+            <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                {% set options = choice %}
+                {{- block('choice_widget_options') -}}
+            </optgroup>
+        {%- else -%}
+            <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+        {%- endif -%}
+    {% endfor %}
+{%- endblock choice_widget_options -%}
+
+{%- block checkbox_widget -%}
+    <input type="checkbox" class="form-check-input" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{%- endblock checkbox_widget -%}
+
+{%- block radio_widget -%}
+    <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{%- endblock radio_widget -%}
+
+{%- block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date) -}}
+            {{- form_widget(form.time) -}}
+        </div>
+    {%- endif -%}
+{%- endblock datetime_widget -%}
+
+{%- block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- date_pattern|replace({
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
+            })|raw -}}
+        </div>
+    {%- endif -%}
+{%- endblock date_widget -%}
+
+{%- block time_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        {%- set vars = widget == 'text' ? { 'attr': { 'size': 1 }} : {} -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{ form_widget(form.hour, vars) }}{% if with_minutes %}:{{ form_widget(form.minute, vars) }}{% endif %}{% if with_seconds %}:{{ form_widget(form.second, vars) }}{% endif %}
+        </div>
+    {%- endif -%}
+{%- endblock time_widget -%}
+
+{%- block number_widget -%}
+    {# type="number" doesn't work with floats #}
+    {%- set type = type|default('text') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock number_widget -%}
+
+{%- block integer_widget -%}
+    {% set type = type|default('number') %}
+    {{- block('form_widget_simple') -}}
+{%- endblock integer_widget -%}
+
+{%- block money_widget -%}
+    {{ money_pattern|replace({ '{{ widget }}': block('form_widget_simple') })|raw }}
+{%- endblock money_widget -%}
+
+{%- block url_widget -%}
+    {%- set type = type|default('url') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock url_widget -%}
+
+{%- block search_widget -%}
+    {%- set type = type|default('search') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock search_widget -%}
+
+{%- block percent_widget -%}
+    {%- set type = type|default('text') -%}
+    {{ block('form_widget_simple') }} %
+{%- endblock percent_widget -%}
+
+{%- block password_widget -%}
+    {%- set type = type|default('password') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock password_widget -%}
+
+{%- block hidden_widget -%}
+    {%- set type = type|default('hidden') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock hidden_widget -%}
+
+{%- block email_widget -%}
+    {%- set type = type|default('email') -%}
+    {{ block('form_widget_simple') }}
+{%- endblock email_widget -%}
+
+{%- block button_widget -%}
+    {%- if label is empty -%}
+        {% set label = name|humanize %}
+    {%- endif -%}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget -%}
+
+{%- block submit_widget -%}
+    {%- set type = type|default('submit') -%}
+    {{ block('button_widget') }}
+{%- endblock submit_widget -%}
+
+{%- block reset_widget -%}
+    {%- set type = type|default('reset') -%}
+    {{ block('button_widget') }}
+{%- endblock reset_widget -%}
+
+{# Labels #}
+
+{%- block form_label -%}
+    {% if label is not same as(false) %}
+        {%- if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {%- if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+        {%- if required -%}
+            &nbsp;<span class="text-danger" title="This field is required">*</span>
+        {%- endif -%}
+        {% if attr.description is defined %}
+            <span class="zj_tips_i"></span>
+            <span class="zj_tips">{{ attr.description }}</span>
+        {% endif %}
+    {%- endif -%}
+
+{%- endblock form_label -%}
+
+{%- block checkbox_element -%}
+    {% if label is not same as(false) %}
+        {%- if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {%- if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <label class="form-check-label" {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+    {%- endif -%}
+{% endblock checkbox_element %}
+
+{%- block form_label_for_radio_element -%}
+    {% if label is not same as(false) %}
+        {%- if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {%- if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+    {%- endif -%}
+{%- endblock form_label_for_radio_element -%}
+
+{%- block button_label -%}{%- endblock -%}
+
+{# Rows #}
+
+{%- block repeated_row -%}
+    {#
+    No need to render the errors here, as all errors are mapped
+    to the first child (see RepeatedTypeValidatorExtension).
+    #}
+    {{- block('form_rows') -}}
+{%- endblock repeated_row -%}
+
+{%- block form_row -%}
+    <div class="form-group">
+        {{- form_label(form) -}}
+        {%- set type = type|default('text') -%}
+        <div class="col-sm-4">
+            {{- form_widget(form) -}}
+            {{- form_errors(form) -}}
+        </div>
+    </div>
+{%- endblock form_row -%}
+
+{%- block button_row -%}
+    <div>
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row -%}
+
+{%- block hidden_row -%}
+    {{ form_widget(form) }}
+{%- endblock hidden_row -%}
+
+{# Misc #}
+
+{%- block form -%}
+    {{ form_start(form) }}
+    {{- form_widget(form) -}}
+    {{ form_end(form) }}
+{%- endblock form -%}
+
+{%- block form_start -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    <form
+    method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}"/>
+    {%- endif -%}
+{%- endblock form_start -%}
+
+{%- block form_end -%}
+    {%- if not render_rest is defined or render_rest -%}
+        {{ form_rest(form) }}
+    {%- endif -%}
+    </form>
+{%- endblock form_end -%}
+
+{%- block form_enctype -%}
+    {% if multipart %}enctype="multipart/form-data"{% endif %}
+{%- endblock form_enctype -%}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        {%- for error in errors -%}
+            <span class="text-danger">{{ error.message }}</span>
+        {%- endfor -%}
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+{%- block form_rest -%}
+    {%- for child in form -%}
+        {%- if not child.rendered -%}
+            {{ form_row(child) }}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock form_rest -%}
+
+{# Support #}
+
+{%- block form_rows -%}
+    {%- for child in form -%}
+        {{ form_row(child) }}
+    {%- endfor -%}
+{%- endblock form_rows -%}
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif %}
+    {%- for attrname, attrvalue in attr %} {% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}"{% else %}{{ attrname }}="{{ attrvalue }}"{% endif %}{%- endfor -%}
+{%- endblock widget_attributes -%}
+
+{%- block widget_container_attributes -%}
+    {% if id is not empty %}id="{{ id }}" {% endif %}
+    {%- for attrname, attrvalue in attr %}{{ attrname }}="{{ attrvalue }}" {%- endfor -%}
+{%- endblock widget_container_attributes -%}
+
+{%- block button_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif %}
+    {%- for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{%- endfor -%}
+{%- endblock button_attributes -%}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Beast Framework">
+        <meta name="author" content="Xin Guo">
+        <meta name="keyword" content="">
+        <meta charset="utf-8">
+        <title>{% block title %}后台管理 - Beast{% endblock %}</title>
+        <link href="{{ asset('bundles/beasteasyadmin/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link crossorigin="anonymous" integrity="sha384-hRwXDtVAhUqyTBKx7SIJpNZQT2zJWbV0jhpY/bjYDFjdZKuBYDNIIKvBN66GiNpr" href="//lib.baomitu.com/jquery-confirm/3.2.3/jquery-confirm.min.css" rel="stylesheet">
+
+        <!-- Icons -->
+        <link href="{{ asset('bundles/beasteasyadmin/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/beasteasyadmin/css/simple-line-icons.css') }}" rel="stylesheet">
+
+        <!-- Main styles for this application -->
+        <link href="{{ asset('bundles/beasteasyadmin/css/style-prime.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/beasteasyadmin/css/gauge.min.css') }}" rel="stylesheet">
+
+        <link href="{{ asset('bundles/beasteasyadmin/css/toastr.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/beasteasyadmin/css/buttons.css') }}" rel="stylesheet">
+    </head>
+
+    <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+        <header class="app-header navbar">
+            <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="nav navbar-nav d-md-down-none mr-auto">
+
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                {% include '@BeastEasyAdmin/layouts/profile.html.twig' %}
+                <button class="navbar-toggler aside-menu-toggler" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </ul>
+        </header>
+
+        <div class="app-body">
+            {% include '@BeastEasyAdmin/layouts/sidebar.html.twig' %}
+            {% block body %}{% endblock %}
+            {% include '@BeastEasyAdmin/layouts/aside.html.twig' %}
+        </div>
+
+        <footer class="app-footer">
+            <span>Copyright &copy; {{ date()|date('Y') }}. Xin Yi Science and Technology Ltd. All rights reserved.</span>
+        </footer>
+
+        <script crossorigin="anonymous" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" src="//lib.baomitu.com/jquery/1.12.4/jquery.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" src="//lib.baomitu.com/tether/1.4.0/js/tether.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-FX3ba7M2tUloKIoPcASdZCs4mrOfRodbeZgoRknxYINiMpnoiuuDaeLLRooW/pWn" src="//lib.baomitu.com/jquery-confirm/3.2.3/jquery-confirm.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" src="//lib.baomitu.com/popper.js/1.12.3/umd/popper.min.js"></script>
+        
+        <!-- Plugins and scripts required by all views -->
+        <script src="{{ asset('bundles/beasteasyadmin/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bundles/beasteasyadmin/js/app.js') }}"></script>
+        <script src="{{ asset('bundles/beasteasyadmin/js/toastr.min.js') }}"></script>
+        <script src="{{ asset('bundles/beasteasyadmin/js/util.js') }}"></script>
+        <script src="{{ asset('bundles/beasteasyadmin/js/layer.js') }}"></script>
+
+        {% block script %}{% endblock %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                {% for flash_type,flashMessages in app.session.flashBag.all() %}
+                    {% if flash_type == 'error' %}
+                            toastr.error("{{ flashMessages['0'] }}","消息提示");
+                    {% else %}
+                            toastr.success("{{ flashMessages['0'] }}","消息提示");
+                    {% endif %}
+
+                {% endfor %}
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+{% if pageCount > 1 %}
+    <nav>
+        <ul class="pagination">
+            <li class="page-item {% if first is not defined or current == first %}disabled{% endif %}"><a class="page-link" href="{{ path(route, query|merge({(pageParameterName): first|default('')})) }}"><<</a>
+            </li>
+
+            <li class="page-item {% if previous is not defined %}disabled{% endif %}"><a class="page-link" href="{{ path(route, query|merge({(pageParameterName): previous|default('')})) }}"><</a>
+            </li>
+
+            {% for page in pagesInRange %}
+                <li class="page-item {% if page == current %}active{% endif %}"><a class="page-link" href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{page}}</a>
+                </li>
+            {% endfor %}
+
+            <li class="page-item {% if next is not defined %}disabled{% endif %}"><a class="page-link" href="{{ path(route, query|merge({(pageParameterName): next|default('')})) }}">></a>
+            </li>
+            <li class="page-item {% if last is not defined or current == last %}disabled{% endif %}"><a class="page-link" href="{{ path(route, query|merge({(pageParameterName): last|default('')})) }}">>></a>
+            </li>
+        </ul>
+    </nav>
+{% endif %}
+<span>共 {{totalCount}} 条记录</span>

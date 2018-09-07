@@ -1,0 +1,53 @@
+{% extends '@BeastEasyAdmin/layouts/base.html.twig' %}
+{% form_theme form '@BeastEasyAdmin/common/form/fields.html.twig' %}
+
+{% block body %}
+    <main class="main">
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('beast_admin_menus_index') }}">菜单管理</a>
+            </li>
+            <li class="breadcrumb-item active">{% if id == null %}添加{% else %}编辑{% endif %}菜单</li>
+        </ol>
+        <form id="zj-form" action="{{ path('beast_admin_menus_edit', {'id':app.request.get('id')}) }}{{app.request.query.all|queryString}}" method="post" enctype="multipart/form-data" >
+            <div class="container-fluid">
+                <div class="animated fadeIn">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>菜单信息</strong>
+                                </div>
+                                <div class="card-block">
+                                    {% for item in form %}
+                                        {{ form_row(item) }}
+                                    {% endfor %}
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-sm btn-primary submit"><i class="fa fa-dot-circle-o"></i> 提交</button>
+                                    <a href="{{ path('beast_admin_menus_index') }}{{app.request.query.all|queryString}}" class="btn btn-sm btn-danger"><i class="fa fa-reply"></i> 返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </main>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    $('#menus_parent').on("change", function(){
+        var isTop = $(this).val();
+        if(isTop == ''){
+            $('#menus_menus_category').parent().parent().show();
+        } else {
+            $('#menus_menus_category').parent().parent().hide();
+        }
+    });
+
+    $(document).ready(function(){
+        $('#menus_parent').change();
+    });
+</script>
+{% endblock %}

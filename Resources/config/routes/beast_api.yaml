@@ -1,0 +1,4 @@
+beast_api_authorization:
+    resource:    Beast\EasyAdminBundle\Controller\Api\Authorization\AuthorizationController
+    type:        rest
+    prefix:      /api/authorization

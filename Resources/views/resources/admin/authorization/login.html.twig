@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>管理后台 - Beast</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="" />
+        <meta http-equiv="Cache-Control" content="max-age=7200">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ asset('/bundles/beasteasyadmin/style.css') }}" />
+    </head>
+    <body>
+        <div class="main">
+            <div class="login">
+                <h1></h1>
+                <div class="inset">
+                    <form  action="{{ path('beast_admin_authorization_login') }}" method="post">
+                        <div>
+                            <h2>登录</h2>
+                            {% if error %}
+                            <p class="text-danger" style='color:#CC0000' align="center">
+                                {% if error.getMessage() == 'Bad credentials.' %}
+                                    用户名或密码错误
+                                {% else %}
+                                    {{ error.getMessage() }}
+                                {% endif %}
+                            </p>
+                            {% endif %}
+                            <span><label>用户名</label></span>
+                            <span>
+                                <input type="text" class="textbox" id="active" name="_username" >
+                            </span>
+                        </div>
+                        <div>
+                            <span><label>密码</label></span>
+                            <span><input type="password" class="password" name="_password"></span>
+                        </div>
+                        <div id='captcha'>
+                            <span><label>验证码</label></span>
+                            <span id='wait'>加载验证码中</span>
+                            <span id="notice" style='display: none;color:red'>请先完成验证</span>
+                        </div>
+                        <div class="sign">
+                            <div class="submit">
+                                <image src="{{ asset('/bundles/beasteasyadmin/images/arrow.png') }}"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="copy-right">
+            <p>&copy; {{ date()|date('Y') }} Xin Yi Science and Technology Ltd. All Rights Reserved</p>
+        </div>
+        <script crossorigin="anonymous" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" src="//lib.baomitu.com/jquery/1.12.4/jquery.min.js"></script>
+        <script src="{{ asset('/bundles/beasteasyadmin/js/geetest/gt.js') }}"></script>
+        <script type="text/javascript">
+            {% if is_open_captcha %}
+                var handlerEmbed = function (captchaObj) {
+                    $('.submit').click(function(e){
+                        var validate = captchaObj.getValidate();
+                        $("form").submit();
+                    });
+                    captchaObj.appendTo("#captcha");
+                    captchaObj.onReady(function () {
+                        $("#wait").hide();
+                    });
+                };
+
+                $.ajax({
+                    // 获取id，challenge，success（是否启用failback）
+                    url: "{{ path('beast_api_authorizationget_geetest_code') }}?t=" + (new Date()).getTime(), // 加随机数防止缓存
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+                        console.dir(data);
+                        var data = data.data;
+
+                        initGeetest({
+                            gt: data.gt,
+                            challenge: data.challenge,
+                            new_captcha: data.new_captcha,
+                            product: "embed",
+                            offline: !data.success,
+                            width: '100%'
+                        }, handlerEmbed);
+                    }
+                });
+            {% else %}
+                $('.submit').click(function(e){
+                    $("form").submit();
+                });
+            {% endif %}
+        </script>
+    </body>
+</html>
