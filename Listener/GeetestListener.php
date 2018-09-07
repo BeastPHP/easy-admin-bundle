@@ -84,17 +84,21 @@ class GeetestListener implements EventSubscriberInterface
             $geetestValidate = $request->get(self::GEETEST_VALIDATE);
             $geetestSeccode = $request->get(self::GEETEST_SECCODE);
 
-            $geetest = new Geetest($this->geetestConfig['captcha_id'], $this->geetestConfig['private_key']);
+            $config = array(
+                'captcha_id' => $this->geetestConfig['captcha_id'],
+                'private_key' => $this->geetestConfig['private_key'],
+            );
+            $easyGeetest = new EasyGeetest($config);
             $data = array(
                 'user_id' => $request->getSession()->getId(), # 网站用户id
                 'client_type' => 'web',
                 'ip_address' => $request->getClientIp(),
             );
 
-            if ($request->getSession()->get(Geetest::GT_SERVER_STATUS_KEY, false)) {
-                $result = $geetest->successValidate($geetestChallenge, $geetestValidate, $geetestSeccode, $data);
+            if ($request->getSession()->get(Util::GT_SERVER_STATUS_KEY, false)) {
+                $result = $easyGeetest->successValidate($geetestChallenge, $geetestValidate, $geetestSeccode, $data);
             } else {
-                $result = $geetest->failValidate($geetestChallenge, $geetestValidate);
+                $result = $easyGeetest->failValidate($geetestChallenge, $geetestValidate);
             }
 
             if (!$result) {

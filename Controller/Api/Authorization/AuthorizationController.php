@@ -51,20 +51,22 @@ class AuthorizationController extends BaseController
     public function getGeetestCodeAction(Request $request): Response
     {
         $request = RestBundleHelper::processRequest($request, 'beast_api_authorization_get_geetest_code');
-        $container = CoreHelper::getCoreKernel()->getContainer();
 
-        $config = $container->getParameter('geetest');
-        $Geetest = new Geetest($config['captcha_id'], $config['private_key']);
+        $config = $this->getParameter('geetest');
+        $parameter = array(
+            'captcha_id' => $config['captcha_id'],
+            'private_key' => $config['private_key'],
+        );
+        $easyGeetest = new EasyGeetest($parameter);
         $data = array(
             'user_id' => $request->getSession()->getId(), # 网站用户id
             'client_type' => 'web',
             'ip_address' => $request->getClientIp(),
         );
 
-        $status = $Geetest->proProcess($data, 1);
-        $request->getSession()->set(Geetest::GT_SERVER_STATUS_KEY, $status);
-
-        $data = $Geetest->getResponse();
+        $status = $easyGeetest->proProcess($data, 1);
+        $request->getSession()->set(Util::GT_SERVER_STATUS_KEY, $status);
+        $data = $easyGeetest->getResponse();
 
         $view = $this->view($data);
         return $this->handleView($view);
