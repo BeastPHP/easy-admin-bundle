@@ -1,0 +1,37 @@
+#权限管理
+beast_admin_authorization:
+  resource:    Beast\EasyAdminBundle\Controller\Admin\Authorization\AuthorizationController
+  type:        annotation
+  prefix:      /admin
+
+beast_admin_administrator:
+  resource:    Beast\EasyAdminBundle\Controller\Admin\Authorization\AdministratorController
+  type:        annotation
+  prefix:      /admin/administrator
+
+beast_admin_role:
+  resource:    Beast\EasyAdminBundle\Controller\Admin\Authorization\RoleController
+  type:        annotation
+  prefix:      /admin/role
+#菜单管理
+beast_admin_menus_category:
+  resource:    Beast\EasyAdminBundle\Controller\Admin\Menus\MenusCategoryController
+  type:        annotation
+  prefix:      /admin/menus/category
+
+beast_admin_menus:
+  resource:    Beast\EasyAdminBundle\Controller\Admin\Menus\MenusController
+  type:        annotation
+  prefix:      /admin/menus
+
+#缓存管理
+beast_admin_cache:
+  resource:    Beast\EasyAdminBundle\Controller\Admin\Cache\ClearController
+  type:        annotation
+  prefix:      /admin/cache
+
+#用户管理
+beast_admin_member_user:
+  resource:    Beast\EasyAdminBundle\Controller\Admin\Member\UserController
+  type:        annotation
+  prefix:      /admin/member/user

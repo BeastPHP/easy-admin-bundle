@@ -1,0 +1,33 @@
+{% set route = getRouteName(app.request.attributes) %}
+{% set menus = getMenus() %}
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            {% for item in menus %}
+                <li class="nav-title">
+                    {{item.name}}
+                </li>
+                {% if item.child %}
+                    {% for child in item.child %}
+                        {% if child.child %}
+                            <li class="nav-item nav-dropdown {% if route in child.active %}open{% endif %}">
+                                <a class="nav-link nav-dropdown-toggle" href="#"><i class="{{child.icon}}"></i> {{child.name}}</a>
+                                <ul class="nav-dropdown-items">
+                                {% for children in child.child %}
+                                    <li class="nav-item ">
+                                        <a class="nav-link {% if route in children.active %}active{% endif %}" href='{{children.url}}'><i class="{{children.icon}}"></i> {{children.name}}</a>
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if route in child.active %}active{% endif %}" href="{{ child.url }}"><i class="{{child.icon}}"></i>{{child.name}}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </nav>
+</div>

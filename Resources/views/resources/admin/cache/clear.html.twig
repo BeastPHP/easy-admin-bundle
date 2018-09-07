@@ -1,0 +1,27 @@
+{% extends '@BeastEasyAdmin/layouts/base.html.twig' %}
+{% block body %}
+    <main class="main">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">清除系统缓存</li>
+        </ol>
+
+        <div class="container-fluid">
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <form action="{{ path('beast_admin_cache_clear') }}" method="post" enctype="multipart/form-data">
+                                    <button type='submit' class="btn btn-danger" style="margin-bottom: 20px;"><i class="fa fa-exclamation-triangle"></i>&nbsp;清除缓存
+                                    </button>
+                                </form>
+                                <p style="color: #aaa">注意：点击后会清除Redis内所有的框架缓存</p>
+                                <p style="color: #aaa">请确认您已经知晓该功能的作用后再使用</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

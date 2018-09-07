@@ -1,0 +1,4 @@
+beast_core_page:
+  resource:    Beast\EasyAdminBundle\Controller\Core\DefaultController
+  type:        annotation
+  prefix:      /

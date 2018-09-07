@@ -1,0 +1,31 @@
+{
+  "name": "beastphp/easy-admin-bundle",
+  "description": "easy-admin-bundle",
+  "keywords": ["beast"],
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "guowoo",
+      "email": "guowoo@aliyun.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "beastphp/easy-geetest": "^1.0",
+    "symfony/framework-bundle": "^3.4|^4.0"
+  },
+  "require-dev": {
+    "symfony/twig-bundle": "^3.4|^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Beast\\EasyAdminBundle\\": ""
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

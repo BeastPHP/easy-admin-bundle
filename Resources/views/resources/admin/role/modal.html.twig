@@ -1,0 +1,15 @@
+{% extends '@BeastEasyAdmin/common/default/infoModal.html.twig' %}
+{% block title %}权限清单{% endblock %}
+{% block body %}
+{% set permisson = object.getPermissionForModal() %}
+    <dl class="row">
+        {% for name, item in permisson %}
+            <dt class="col-sm-3">{{ name }}</dt>
+            <dd class="col-sm-9">
+                {% for name in item %}
+                    <span>{{ name }}</span>
+                {% endfor %}
+            </dd>
+        {% endfor %}
+    </dl>
+{% endblock %}
