@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace Beast\EasyAdminBundle\Controller\Api\Authorization;
 
 use Beast\EasyAdminBundle\Controller\Api\BaseController;
-use Beast\EasyAdminBundle\Helper\CoreHelper;
-use Beast\EasyAdminBundle\Helper\Geetest\Geetest;
 use Beast\EasyAdminBundle\Helper\Rest\RestBundleHelper;
+use Beast\EasyAdminBundle\Helper\Util;
+use Beast\EasyGeetest\EasyGeetest;
 use FOS\RestBundle\Controller\Annotations as Annotations;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;

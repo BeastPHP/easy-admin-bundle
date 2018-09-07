@@ -11,7 +11,8 @@ declare(strict_types=1);
 
 namespace Beast\EasyAdminBundle\Listener;
 
-use Beast\EasyAdminBundle\Helper\Geetest\Geetest;
+use Beast\EasyAdminBundle\Helper\Util;
+use Beast\EasyGeetest\EasyGeetest;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\AuthenticationEvents;
