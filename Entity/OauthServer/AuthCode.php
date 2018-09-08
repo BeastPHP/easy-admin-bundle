@@ -32,10 +32,4 @@ class AuthCode extends BaseAuthCode
      * @ORM\JoinColumn(nullable=false)
      */
     protected $client;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Beast\EasyAdminBundle\Entity\Member\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    protected $user;
 }
