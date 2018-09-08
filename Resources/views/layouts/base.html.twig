@@ -46,9 +46,9 @@
 </header>
 
 <div class="app-body">
-    {% block sidebar %}{% endblock %}
+    {% block sidebar %}{% include '@BeastEasyAdmin/layouts/sidebar.html.twig' %}{% endblock %}
     {% block body %}{% endblock %}
-    {% block aside %}{% endblock %}
+    {% block aside %}{% include '@BeastEasyAdmin/layouts/aside.html.twig' %}{% endblock %}
 </div>
 
 <footer class="app-footer">
