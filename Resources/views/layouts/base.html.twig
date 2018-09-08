@@ -46,11 +46,7 @@
 </header>
 
 <div class="app-body">
-    {% if isAdmin() %}
-        {% include '@BeastEasyAdmin/layouts/admin/sidebar.html.twig' %}
-    {% else %}
-        {% include '@BeastEasyAdmin/layouts/user/sidebar.html.twig' %}
-    {% endif %}
+    {% include '@BeastEasyAdmin/layouts/sidebar.html.twig' %}
     {% block body %}{% endblock %}
     {% include '@BeastEasyAdmin/layouts/aside.html.twig' %}
 </div>
