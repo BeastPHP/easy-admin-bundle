@@ -46,13 +46,15 @@
 </header>
 
 <div class="app-body">
-    {% include '@BeastEasyAdmin/layouts/sidebar.html.twig' %}
+    {% block sidebar %}{% endblock %}
     {% block body %}{% endblock %}
-    {% include '@BeastEasyAdmin/layouts/aside.html.twig' %}
+    {% block aside %}{% endblock %}
 </div>
 
 <footer class="app-footer">
-    <span>Copyright &copy; {{ date()|date('Y') }}. Xin Yi Science and Technology Ltd. All rights reserved.</span>
+    {% block footer %}
+        <span>Copyright &copy; {{ date()|date('Y') }}. Xin Yi Science and Technology Ltd. All rights reserved.</span>
+    {% endblock %}
 </footer>
 
 <script crossorigin="anonymous" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
