@@ -11,8 +11,7 @@ declare(strict_types=1);
 
 namespace Beast\EasyAdminBundle\Entity\Menus;
 
-use Beast\EasyAdminBundle\Entity\Core\PrimaryKeyTrait;
-use Beast\EasyAdminBundle\Entity\Core\TimestampTrait;
+use Beast\EasyAdminBundle\Entity\Core\BaseEntity;
 use Beast\EasyAdminBundle\Helper\CoreHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -26,10 +25,8 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
  * )
  * @ORM\Entity
  */
-class Menus
+class Menus extends BaseEntity
 {
-    use PrimaryKeyTrait, TimestampTrait;
-
     public function __construct(self $menus = null, MenusCategory $category = null)
     {
         $this->menusCategory = $category;

@@ -11,8 +11,7 @@ declare(strict_types=1);
 
 namespace Beast\EasyAdminBundle\Entity\Menus;
 
-use Beast\EasyAdminBundle\Entity\Core\PrimaryKeyTrait;
-use Beast\EasyAdminBundle\Entity\Core\TimestampTrait;
+use Beast\EasyAdminBundle\Entity\Core\BaseEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,10 +22,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="menus_category")
  * @ORM\Entity
  */
-class MenusCategory
+class MenusCategory extends BaseEntity
 {
-    use PrimaryKeyTrait, TimestampTrait;
-
     public function __construct()
     {
         $this->menus = new ArrayCollection();

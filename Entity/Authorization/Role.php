@@ -11,8 +11,7 @@ declare(strict_types=1);
 
 namespace Beast\EasyAdminBundle\Entity\Authorization;
 
-use Beast\EasyAdminBundle\Entity\Core\PrimaryKeyTrait;
-use Beast\EasyAdminBundle\Entity\Core\TimestampTrait;
+use Beast\EasyAdminBundle\Entity\Core\BaseEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -27,10 +26,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="名称已存在"
  * )
  */
-class Role
+class Role extends BaseEntity
 {
-    use PrimaryKeyTrait, TimestampTrait;
-
     public function __construct(Administrator $administrator = null)
     {
         $this->administrator = $administrator;

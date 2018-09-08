@@ -1,20 +1,32 @@
 <?php
 /*
- * This file is part of the Beast package.
+ * This file is part of the EasyAdmin package.
  *
  * (c) Maxwell Guo <beastmaxwell.guo@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-declare(strict_types=1);
 
 namespace Beast\EasyAdminBundle\Entity\Core;
 
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
-trait TimestampTrait
+/**
+ * @ORM\MappedSuperclass
+ */
+abstract class BaseEntity
 {
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
     /**
      * @var \DateTime
      *
@@ -30,19 +42,31 @@ trait TimestampTrait
     private $updatedAt;
 
     /**
-     * @return \DateTime
+     * @return integer
      */
-    public function getCreatedAt(): ?\DateTime
+    public function getId(): ?int
     {
-        return $this->createdAt;
+        return $this->id;
     }
+
+    /**
+     * @param $id
+     *
+     * @return self
+     */
+    public function setId($id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
 
     /**
      * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
-        return $this->updatedAt;
+        return $this->createdAt;
     }
 
     /**
@@ -58,11 +82,19 @@ trait TimestampTrait
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
      * @param \DateTime $updatedAt
      *
      * @return self
      */
-    public function setUpdatedAt(\DateTime $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
 
