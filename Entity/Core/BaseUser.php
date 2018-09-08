@@ -280,7 +280,6 @@ abstract class BaseUser extends BaseEntity implements UserInterface, EquatableIn
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -321,7 +320,6 @@ abstract class BaseUser extends BaseEntity implements UserInterface, EquatableIn
         ));
     }
 
-
     /**
      * @see \Serializable::unserialize()
      *
@@ -329,13 +327,13 @@ abstract class BaseUser extends BaseEntity implements UserInterface, EquatableIn
      */
     public function unserialize($serialized)
     {
-        $id = $this->getId();
         list (
             $id,
             $this->username,
             $this->password,
             $this->salt
             ) = unserialize($serialized);
+        $this->setId($id);
     }
 
     public function isAccountNonExpired()
@@ -363,7 +361,7 @@ abstract class BaseUser extends BaseEntity implements UserInterface, EquatableIn
      */
     public function isEqualTo(UserInterface $user): bool
     {
-        if (!$user instanceof self) {
+        if (!($user instanceof self)) {
             return false;
         }
 
