@@ -29,9 +29,3 @@ beast_admin_cache:
   resource:    Beast\EasyAdminBundle\Controller\Admin\Cache\ClearController
   type:        annotation
   prefix:      /admin/cache
-
-#用户管理
-beast_admin_member_user:
-  resource:    Beast\EasyAdminBundle\Controller\Admin\Member\UserController
-  type:        annotation
-  prefix:      /admin/member/user

@@ -2,7 +2,7 @@
 
 namespace Beast\EasyAdminBundle\Helper\Rest;
 
-use Beast\EasyAdminBundle\Entity\Member\User;
+use Beast\EasyAdminBundle\Entity\User\User;
 use Beast\EasyAdminBundle\Helper\Log;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;

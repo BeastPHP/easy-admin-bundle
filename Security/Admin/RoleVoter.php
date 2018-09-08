@@ -22,13 +22,18 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class RoleVoter extends Voter
 {
-    protected $requestStack;
+    protected $request;
+    protected $user;
+
     private $token;
 
     public function __construct(RequestStack $requestStack, TokenStorageInterface $token)
     {
-        $this->requestStack = $requestStack;
+        $this->request = $requestStack->getCurrentRequest();
         $this->token = $token;
+        if ($token && $token instanceof UsernamePasswordToken) {
+            $this->user = $token->getUser();
+        }
     }
 
     protected function supports($attribute, $subject)
@@ -51,19 +56,16 @@ class RoleVoter extends Voter
 
     public function vote(TokenInterface $token, $subject, array $attributes)
     {
-        $request = $this->requestStack->getCurrentRequest();
-        $user = $this->token->getToken()->getUser();
-
-        if ($token instanceof UsernamePasswordToken) {
+        if ($this->user instanceof Administrator) {
             $redis = CoreHelper::getRedisConnection();
-            $hashKey = sprintf('role_%s', $user->getRole()->getId());
+            $hashKey = sprintf('role_%s', $this->user->getRole()->getId());
             $controllers = array();
 
             $roleController = $redis->hGet('beast_menus_controllers', $hashKey);
             if ($roleController) {
                 $controllers = unserialize($roleController);
 
-                $currentController = explode('::', $request->attributes->get('_controller'));
+                $currentController = explode('::', $this->request->attributes->get('_controller'));
                 if (!in_array($currentController[0], $controllers)) {
                     return VoterInterface::ACCESS_DENIED;
                 }

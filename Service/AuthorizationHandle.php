@@ -2,6 +2,7 @@
 
 namespace Beast\EasyAdminBundle\Service;
 
+use Beast\EasyAdminBundle\Entity\Core\BaseUser;
 use Beast\EasyAdminBundle\Helper\CoreHelper;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -29,19 +30,10 @@ class AuthorizationHandle implements AuthenticationSuccessHandlerInterface
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         $user = $token->getUser();
-        $em = CoreHelper::getDoctrineEntityManager();
+        //dump($request);die;
 
-        $user->setLastLoginIp($user->getLoginIp());
-        $user->setLoginIp($request->getClientIp());
 
-        if ($user->getCurrentLogin()) {
-            $user->setLastLogin($user->getCurrentLogin());
-        }
-        $user->setCurrentLogin(new \DateTime());
 
-        $em->persist($user);
-        $em->flush();
-
-        return new RedirectResponse($this->container->get('router')->generate('beast_admin_authorization_dashboard'));
+        //return new RedirectResponse($this->container->get('router')->generate('beast_admin_authorization_dashboard'));
     }
 }
