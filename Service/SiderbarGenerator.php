@@ -64,12 +64,12 @@ class SiderbarGenerator
             foreach ($permission as $item) {
                 if ($item->isParent()) {
                     $categoryIds[$item->getMenusCategory()->getId()] = $item->getMenusCategory()->getId();
-                } else {
-                    if ($route = $this->router->getRouteCollection()->get($item->getUrl())) {
-                        $controller = explode('::', $route->getDefaults()['_controller']);
-                        if (isset($controller[0])) {
-                            $controllers[] = $controller[0];
-                        }
+                }
+
+                if ($route = $this->router->getRouteCollection()->get($item->getUrl())) {
+                    $controller = explode('::', $route->getDefaults()['_controller']);
+                    if (isset($controller[0])) {
+                        $controllers[] = $controller[0];
                     }
                 }
 
