@@ -66,9 +66,7 @@ class AuthorizationController extends BaseController
 
         $status = $easyGeetest->proProcess($data, 1);
         $request->getSession()->set(Util::GT_SERVER_STATUS_KEY, $status);
-        $data = $easyGeetest->getResponse();
 
-        $view = $this->view($data);
-        return $this->handleView($view);
+        return $this->response($easyGeetest->getResponse());
     }
 }

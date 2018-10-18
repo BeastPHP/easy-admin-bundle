@@ -18,6 +18,8 @@ use Doctrine\ORM\EntityManager;
 use Redis;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Cache\Simple\RedisCache;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class BaseController
@@ -82,5 +84,10 @@ class BaseController extends Controller
     public function getSimpleRedisCache(string $connection = 'default'): ?RedisCache
     {
         return CoreHelper::getSimpleRedisCache($connection);
+    }
+
+    public function response(array $data, string $view = null, bool $redirect = false, string $url = ''): Response
+    {
+
     }
 }

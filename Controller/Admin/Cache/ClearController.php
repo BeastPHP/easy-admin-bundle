@@ -16,6 +16,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class ClearController
+ *
+ * @package Beast\EasyAdminBundle\Controller\Admin\Cache
+ */
 class ClearController extends BaseController
 {
     /**
@@ -26,7 +31,7 @@ class ClearController extends BaseController
      */
     public function clearAction(Request $request): Response
     {
-        if ("POST" == $request->getMethod()) {
+        if ($request->isMethod('POST')) {
             $this->getSimpleRedisCache()->clear();
             $request->getSession()->getFlashBag()->add('success', '清除成功');
         }

@@ -2,6 +2,7 @@
 
 namespace Beast\EasyAdminBundle\Listener;
 
+use Beast\EasyAdminBundle\Helper\Log;
 use Beast\EasyAdminBundle\Helper\Rest\ExceptionExtend;
 use Beast\EasyAdminBundle\Helper\Rest\RestBundleHelper;
 use FOS\RestBundle\View\View;
@@ -30,7 +31,6 @@ class BeastExceptionListener
         $this->twig = $twig;
         $this->debug = $debug;
     }
-
 
     /**
      * @param Request $request

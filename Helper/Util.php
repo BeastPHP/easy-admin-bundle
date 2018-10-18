@@ -12,11 +12,18 @@ namespace Beast\EasyAdminBundle\Helper;
 
 use Symfony\Component\HttpKernel\Kernel;
 
+/**
+ * Class Util
+ *
+ * @package Beast\EasyAdminBundle\Helper
+ */
 class Util
 {
+
     const GT_SERVER_STATUS_KEY = 'gt_server_status';
 
     const ID_ACTIVE = '1';
+
     const ID_INACTIVE = '0';
 
     /**

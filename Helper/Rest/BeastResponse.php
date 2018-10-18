@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Beast\EasyAdminBundle\Helper\Rest;
 
-use Beast\EasyAdminBundle\Helper\Rest\RestBundleHelper;
-
 class BeastResponse
 {
     /**

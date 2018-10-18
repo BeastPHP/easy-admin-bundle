@@ -69,7 +69,7 @@ class MenusCategoryController extends BaseController
         }
 
         $form = $this->createForm(MenusCategoryType::class, $object);
-        if ("POST" == $request->getMethod()) {
+        if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->persist($object);

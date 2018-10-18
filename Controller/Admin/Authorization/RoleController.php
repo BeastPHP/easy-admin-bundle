@@ -20,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RoleController extends BaseController
 {
-
     /**
      * @Route("/index", name="beast_admin_role_index")
      * @param Request $request
@@ -35,6 +34,7 @@ class RoleController extends BaseController
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query->getQuery(), $request->get('page', 1));
+
         return $this->render(
             '@BeastEasyAdmin/resources/admin/role/index.html.twig',
             array(
@@ -68,7 +68,7 @@ class RoleController extends BaseController
         }
 
         $form = $this->createForm(RoleType::class, $object);
-        if ("POST" == $request->getMethod()) {
+        if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->persist($object);
@@ -87,5 +87,35 @@ class RoleController extends BaseController
                 'id' => $object->getId()
             )
         );
+    }
+
+    /**
+     * @Route("/delete/{ids}", defaults={"ids" = NULL}, name="beast_admin_role_delete")
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function deleteAction(Request $request): Response
+    {
+        if ($request->get('ids')) {
+            $ids = $request->get('ids');
+        } else {
+            $ids = $request->request->get('ids');
+        }
+
+        if (!is_array($ids)) {
+            $ids = array($ids);
+        }
+
+        $em = $this->getObjectManager();
+        $objects = $this->getRepository(Role::class)->findBy(['id' => $ids]);
+        foreach ($objects as $object) {
+            $em->remove($object);
+        }
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('success', '删除成功');
+
+        return $this->redirect($this->generateUrl('beast_admin_role_index', $request->query->all()));
     }
 }

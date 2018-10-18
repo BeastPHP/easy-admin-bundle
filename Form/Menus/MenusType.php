@@ -14,6 +14,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class MenusType
+ *
+ * @package Beast\EasyAdminBundle\Form\Menus
+ */
 class MenusType extends AbstractType
 {
     /**
@@ -170,9 +175,11 @@ class MenusType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Menus::class,
-            'csrf_protection' => true,
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => Menus::class,
+                'csrf_protection' => true,
+            )
+        );
     }
 }

@@ -23,13 +23,26 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class RoleType
+ *
+ * @package Beast\EasyAdminBundle\Form\Role
+ */
 class RoleType extends AbstractType
 {
-    protected $repository;
+    /**
+     * @var MenusRepository
+     */
+    protected $menusRepository;
 
-    public function __construct(MenusRepository $repository)
+    /**
+     * RoleType constructor.
+     *
+     * @param MenusRepository $menusRepository
+     */
+    public function __construct(MenusRepository $menusRepository)
     {
-        $this->repository = $repository;
+        $this->menusRepository = $menusRepository;
     }
 
     /**
@@ -44,15 +57,15 @@ class RoleType extends AbstractType
             'name',
             TextType::class,
             array(
-                'label'       => '角色名称',
-                'required'    => true,
+                'label' => '角色名称',
+                'required' => true,
                 'constraints' => array(
                     new Assert\NotBlank(
                         array('message' => '角色名称不能为空')
                     ),
                     new Assert\Length(
                         array(
-                            'max'        => '32',
+                            'max' => '32',
                             'maxMessage' => '角色名称长度超过32位',
                         )
                     ),
@@ -64,20 +77,20 @@ class RoleType extends AbstractType
             'permission',
             EntityType::class,
             array(
-                'label'         => '权限列表',
-                'required'      => true,
-                'class'         => Menus::class,
-                'expanded'      => false,
-                'multiple'      => true,
-                'choice_label'  => 'name',
-                'attr'          => array(
+                'label' => '权限列表',
+                'required' => true,
+                'class' => Menus::class,
+                'expanded' => false,
+                'multiple' => true,
+                'choice_label' => 'name',
+                'attr' => array(
                     'size' => 10,
                 ),
                 'query_builder' => function (EntityRepository $er) {
                     $query = $er->createQueryBuilder('p');
                     return $query->orderBy('p.sort', 'ASC');
                 },
-                'group_by'      => function ($object, $key, $value) {
+                'group_by' => function (Menus $object, $key, $value) {
                     if ($object->isParent()) {
                         return $object->getName();
                     } else {
@@ -93,9 +106,11 @@ class RoleType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'      => Role::class,
-            'csrf_protection' => true,
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => Role::class,
+                'csrf_protection' => true,
+            )
+        );
     }
 }

@@ -8,6 +8,11 @@ use Beast\EasyAdminBundle\Entity\Menus\MenusCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
+/**
+ * Class MenusCategoryRepository
+ *
+ * @package Beast\EasyAdminBundle\Repository\Menus
+ */
 class MenusCategoryRepository extends ServiceEntityRepository
 {
     /**

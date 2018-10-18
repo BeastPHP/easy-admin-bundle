@@ -10,6 +10,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class MenusCategoryType
+ *
+ * @package Beast\EasyAdminBundle\Form\Menus
+ */
 class MenusCategoryType extends AbstractType
 {
     /**
@@ -24,15 +29,15 @@ class MenusCategoryType extends AbstractType
             'name',
             TextType::class,
             array(
-                'label'       => '菜单组名称',
-                'required'    => true,
+                'label' => '菜单组名称',
+                'required' => true,
                 'constraints' => array(
                     new Assert\NotBlank(
                         array('message' => '菜单组名称不能为空')
                     ),
                     new Assert\Length(
                         array(
-                            'max'        => '32',
+                            'max' => '32',
                             'maxMessage' => '菜单组名称长度超过32位',
                         )
                     ),
@@ -44,12 +49,12 @@ class MenusCategoryType extends AbstractType
             'sort',
             TextType::class,
             array(
-                'label'       => '排序',
-                'required'    => false,
+                'label' => '排序',
+                'required' => false,
                 'constraints' => array(
                     new Assert\Length(
                         array(
-                            'max'        => '64',
+                            'max' => '64',
                             'maxMessage' => '排序长度超过64位',
                         )
                     ),
@@ -66,9 +71,11 @@ class MenusCategoryType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'      => MenusCategory::class,
-            'csrf_protection' => true,
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => MenusCategory::class,
+                'csrf_protection' => true,
+            )
+        );
     }
 }

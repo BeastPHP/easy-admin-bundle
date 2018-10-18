@@ -70,7 +70,7 @@ class AdministratorController extends BaseController
         }
 
         $form = $this->createForm(AdministratorType::class, $object);
-        if ("POST" == $request->getMethod()) {
+        if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->persist($object);
@@ -84,10 +84,10 @@ class AdministratorController extends BaseController
 
         return $this->render(
             '@BeastEasyAdmin/resources/admin/administrator/edit.html.twig',
-            array(
+            [
                 'form' => $form->createView(),
                 'id' => $object->getId()
-            )
+            ]
         );
     }
 

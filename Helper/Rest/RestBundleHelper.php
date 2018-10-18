@@ -16,9 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RestBundleHelper
 {
-
-    const API_MODULE_TYPE = "api";
-    const SERVICE_MODULE_TYPE = "game_service";
+    const API_MODULE_TYPE = 'api';
+    const SERVICE_MODULE_TYPE = 'game_service';
 
     const RESPONSE_STATUS_TRUE = 'T';
     const RESPONSE_STATUS_FALSE = 'F';
@@ -59,12 +58,12 @@ class RestBundleHelper
             $messages = explode('|', $error->getMessage());
             if (count($messages) == 2) {
                 $errorData[] = array(
-                    'code'    => $messages['0'],
+                    'code' => $messages['0'],
                     'message' => $messages['1'],
                 );
             } else {
                 $errorData[] = array(
-                    'code'    => $messages['0'],
+                    'code' => $messages['0'],
                     'message' => $messages['0'],
                 );
             }
@@ -75,12 +74,12 @@ class RestBundleHelper
                 $messages = explode('|', $formError->getMessageTemplate());
                 if (count($messages) == 2) {
                     $errorData[] = array(
-                        'code'    => $messages['0'],
+                        'code' => $messages['0'],
                         'message' => $messages['1'],
                     );
                 } else {
                     $errorData[] = array(
-                        'code'    => $messages['0'],
+                        'code' => $messages['0'],
                         'message' => $messages['0'],
                     );
                 }
@@ -91,12 +90,12 @@ class RestBundleHelper
                         $messages = explode('|', $formError->getMessageTemplate());
                         if (count($messages) == 2) {
                             $errorData[] = array(
-                                'code'    => $messages['0'],
+                                'code' => $messages['0'],
                                 'message' => $messages['1'],
                             );
                         } else {
                             $errorData[] = array(
-                                'code'    => $messages['0'],
+                                'code' => $messages['0'],
                                 'message' => $messages['0'],
                             );
                         }
@@ -127,7 +126,7 @@ class RestBundleHelper
 
         if (!($user instanceof User)) {
             $errorCodes[] = array(
-                'code'    => StatusCode::CODE_USER_INVALID,
+                'code' => StatusCode::CODE_USER_INVALID,
                 'message' => StatusCode::MSG_USER_INVALID,
             );
             throw new ExceptionExtend($errorCodes);

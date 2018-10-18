@@ -14,7 +14,6 @@ use Symfony\Component\Cache\Simple\RedisCache;
  */
 class CoreHelper extends HelperAbstract
 {
-
     /**
      * @return \Symfony\Component\HttpKernel\KernelInterface
      */

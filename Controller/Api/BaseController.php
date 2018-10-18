@@ -15,6 +15,11 @@ use Beast\EasyAdminBundle\Helper\Rest\RestBundleHelper;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\View\View;
 
+/**
+ * Class BaseController
+ *
+ * @package Beast\EasyAdminBundle\Controller\Api
+ */
 class BaseController extends FOSRestController
 {
     /**
@@ -33,5 +38,16 @@ class BaseController extends FOSRestController
         $responseData['status'] = RestBundleHelper::RESPONSE_STATUS_TRUE;
         $responseData['data'] = $data;
         return View::create($responseData, $statusCode, $headers);
+    }
+
+    /**
+     * @param null $data
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function response($data = null)
+    {
+        $view = $this->view($data);
+        return $this->handleView($view);
     }
 }
