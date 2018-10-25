@@ -26,18 +26,44 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
+/**
+ * Class LoginListener
+ *
+ * @package Beast\EasyAdminBundle\Listener
+ */
 class LoginListener implements EventSubscriberInterface
 {
     const GEETEST_CHALLENGE = 'geetest_challenge';
     const GEETEST_VALIDATE = 'geetest_validate';
     const GEETEST_SECCODE = 'geetest_seccode';
 
+    /**
+     * @var ParameterBagInterface
+     */
     protected $parameterBag;
+
+    /**
+     * @var EntityManagerInterface
+     */
     protected $em;
+
+    /**
+     * @var null|\Symfony\Component\HttpFoundation\Request
+     */
     protected $request;
 
+    /**
+     * @var mixed
+     */
     private $geetestConfig;
 
+    /**
+     * LoginListener constructor.
+     *
+     * @param ParameterBagInterface $parameterBag
+     * @param EntityManagerInterface $em
+     * @param RequestStack $requestStack
+     */
     public function __construct(
         ParameterBagInterface $parameterBag,
         EntityManagerInterface $em,
@@ -49,13 +75,16 @@ class LoginListener implements EventSubscriberInterface
         $this->geetestConfig = $parameterBag->get('geetest');
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             AuthenticationEvents::AUTHENTICATION_FAILURE => 'onAuthenticationFailure',
             AuthenticationEvents::AUTHENTICATION_SUCCESS => 'onAuthenticationSuccess',
             SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin'
-        );
+        ];
     }
 
     /**
@@ -110,16 +139,16 @@ class LoginListener implements EventSubscriberInterface
             $geetestValidate = $request->get(self::GEETEST_VALIDATE);
             $geetestSeccode = $request->get(self::GEETEST_SECCODE);
 
-            $config = array(
+            $config = [
                 'captcha_id' => $this->geetestConfig['captcha_id'],
                 'private_key' => $this->geetestConfig['private_key'],
-            );
+            ];
             $easyGeetest = new EasyGeetest($config);
-            $data = array(
+            $data = [
                 'user_id' => $request->getSession()->getId(), # 网站用户id
                 'client_type' => 'web',
                 'ip_address' => $request->getClientIp(),
-            );
+            ];
 
             if ($request->getSession()->get(Util::GT_SERVER_STATUS_KEY, false)) {
                 $result = $easyGeetest->successValidate($geetestChallenge, $geetestValidate, $geetestSeccode, $data);
