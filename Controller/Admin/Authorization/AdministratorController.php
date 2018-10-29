@@ -15,6 +15,7 @@ use Beast\EasyAdminBundle\Controller\Admin\BaseController;
 use Beast\EasyAdminBundle\Entity\Authorization\Administrator;
 use Beast\EasyAdminBundle\Form\Administrator\AdministratorType;
 use Beast\EasyAdminBundle\Helper\Util;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +34,7 @@ class AdministratorController extends BaseController
      */
     public function indexAction(Request $request): Response
     {
+        /* @var QueryBuilder $query*/
         $query = $this->getRepository(Administrator::class)->createQueryBuilder('a');
 
         $paginator = $this->get('knp_paginator');

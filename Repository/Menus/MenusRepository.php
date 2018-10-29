@@ -30,7 +30,7 @@ class MenusRepository extends ServiceEntityRepository
      */
     public function getParentMenus(): array
     {
-        $result = array();
+        $result = [];
         $query = $this->createQueryBuilder('p');
         $result = $query->where(
             $query->expr()->isNull('p.parent')
@@ -44,7 +44,7 @@ class MenusRepository extends ServiceEntityRepository
      */
     public function getChildMenus(): array
     {
-        $result = array();
+        $result = [];
         $query = $this->createQueryBuilder('p');
         $result = $query->where(
             $query->expr()->isNotNull('p.parent')
