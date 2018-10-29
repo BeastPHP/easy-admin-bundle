@@ -34,11 +34,12 @@ class AdministratorController extends BaseController
      */
     public function indexAction(Request $request): Response
     {
-        /* @var QueryBuilder $query*/
+        /* @var QueryBuilder $query */
         $query = $this->getRepository(Administrator::class)->createQueryBuilder('a');
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query->getQuery(), $request->get('page', 1));
+
         return $this->render(
             '@BeastEasyAdmin/resources/admin/administrator/index.html.twig',
             array(
@@ -124,6 +125,7 @@ class AdministratorController extends BaseController
             $response['status'] = Util::ID_ACTIVE;
             $response['isActive'] = $object->getIsActive();
         }
+
         return new JsonResponse($response);
     }
 
@@ -153,6 +155,7 @@ class AdministratorController extends BaseController
         $em->flush();
 
         $request->getSession()->getFlashBag()->add('success', '删除成功');
+
         return $this->redirect($this->generateUrl('beast_admin_administrator_index', $request->query->all()));
     }
 }

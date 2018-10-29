@@ -37,6 +37,7 @@ class BaseController extends FOSRestController
     {
         $responseData['status'] = RestBundleHelper::RESPONSE_STATUS_TRUE;
         $responseData['data'] = $data;
+
         return View::create($responseData, $statusCode, $headers);
     }
 
@@ -48,6 +49,7 @@ class BaseController extends FOSRestController
     protected function response($data = null)
     {
         $view = $this->view($data);
+
         return $this->handleView($view);
     }
 }
