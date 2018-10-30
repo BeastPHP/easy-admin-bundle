@@ -14,27 +14,20 @@ namespace Beast\EasyAdminBundle\Service\Administrator;
 use Beast\EasyAdminBundle\Entity\Authorization\Administrator;
 use Beast\EasyAdminBundle\Helper\Util;
 use Beast\EasyAdminBundle\Service\BaseService;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AdministratorService extends BaseService
 {
     /**
      * AdministratorService constructor.
      *
-     * @param ManagerRegistry $managerRegistry
-     * @param PaginatorInterface $paginator
-     * @param RequestStack $requestStack
+     * @param ContainerInterface $container
      */
-    public function __construct(
-        ManagerRegistry $managerRegistry,
-        PaginatorInterface $paginator,
-        RequestStack $requestStack
-    ) {
-        parent::__construct($managerRegistry, $paginator, $requestStack, Administrator::class);
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container, Administrator::class);
     }
 
     /**

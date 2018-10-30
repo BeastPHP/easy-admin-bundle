@@ -10,11 +10,8 @@
 
 namespace Beast\EasyAdminBundle\Service;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Beast\EasyAdminBundle\Helper\Core\ServiceTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class BaseService
@@ -23,99 +20,23 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 abstract class BaseService
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-    /**
-     * @var PaginatorInterface
-     */
-    protected $paginator;
-
-    /**
-     * @var null|\Symfony\Component\HttpFoundation\Request
-     */
-    protected $request;
-
-    /**
-     * @var ObjectManager|null
-     */
-    protected $em;
-
-    /**
-     * @var null
-     */
-    protected $entityClass;
+    use ServiceTrait;
 
     /**
      * BaseService constructor.
      *
-     * @param ManagerRegistry $managerRegistry
-     * @param PaginatorInterface $paginator
-     * @param RequestStack $requestStack
-     * @param $entityClass
+     * @param ContainerInterface $container
+     * @param null $entityClass
      */
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        PaginatorInterface $paginator,
-        RequestStack $requestStack,
+        ContainerInterface $container,
         $entityClass = null
     ) {
-        $this->request = $requestStack->getCurrentRequest();
-        $this->paginator = $paginator;
-        $this->managerRegistry = $managerRegistry;
+        $this->request = $container->get('request_stack')->getCurrentRequest();
+        $this->paginator = $container->get('knp_paginator');
+        $this->managerRegistry = $container->get('doctrine');
 
-        $this->em = $managerRegistry->getManagerForClass($entityClass);
+        $this->em = $this->managerRegistry->getManagerForClass($entityClass);
         $this->entityClass = $entityClass;
-    }
-
-    /**
-     * @param $entityName
-     *
-     * @return ObjectRepository
-     */
-    public function getRepository($entityName = null): ObjectRepository
-    {
-        $entityClass = $this->entityClass;
-        if (!is_null($entityName)) {
-            $entityClass = $entityName;
-        }
-
-        return $this->managerRegistry->getRepository($entityClass);
-    }
-
-    /**
-     * @param null $name
-     *
-     * @return ObjectManager
-     */
-    public function getManager($name = null): ObjectManager
-    {
-        return $this->managerRegistry->getManager($name);
-    }
-
-    /**
-     * Gets the object manager associated with a given class.
-     *
-     * @param string $class A persistent object class name.
-     *
-     * @return ObjectManager|null
-     */
-    public function getManagerForClass($class)
-    {
-        return $this->managerRegistry->getManagerForClass($class);
-    }
-
-    /**
-     * @param $target
-     * @param int $page
-     * @param int $limit
-     * @param array $options
-     *
-     * @return \Knp\Component\Pager\Pagination\PaginationInterface
-     */
-    public function paginate($target, $page = 1, $limit = 10, array $options = array())
-    {
-        return $this->paginator->paginate($target);
     }
 }
