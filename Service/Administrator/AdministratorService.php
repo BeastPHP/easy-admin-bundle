@@ -67,7 +67,7 @@ class AdministratorService extends BaseService
                 $object->setIsActive(Util::ID_ACTIVE);
             }
 
-            $this->em->persist($object);
+            /* 已经取到了 $object 对象,此处不必调用$em->persist($object) */
             $this->em->flush();
 
             $response['status'] = Util::ID_ACTIVE;
