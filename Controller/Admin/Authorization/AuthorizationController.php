@@ -22,10 +22,9 @@ class AuthorizationController extends BaseController
 {
     /**
      * @Route("/login", name="beast_admin_authorization_login")
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function loginAction(Request $request): Response
+    public function loginAction(): Response
     {
         if ($this->getUser()) {
             return $this->redirect($this->generateUrl('beast_admin_authorization_dashboard'));

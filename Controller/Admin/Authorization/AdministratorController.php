@@ -14,37 +14,44 @@ namespace Beast\EasyAdminBundle\Controller\Admin\Authorization;
 use Beast\EasyAdminBundle\Controller\Admin\BaseController;
 use Beast\EasyAdminBundle\Entity\Authorization\Administrator;
 use Beast\EasyAdminBundle\Form\Administrator\AdministratorType;
-use Beast\EasyAdminBundle\Helper\Util;
-use Doctrine\ORM\QueryBuilder;
+use Beast\EasyAdminBundle\Service\Administrator\AdministratorService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class AdministratorController
+ *
+ * @package Beast\EasyAdminBundle\Controller\Admin\Authorization
+ */
 class AdministratorController extends BaseController
 {
     /**
+     * @var AdministratorService
+     */
+    protected $administratorService;
+
+    /**
+     * AdministratorController constructor.
+     *
+     * @param AdministratorService $administratorService
+     */
+    public function __construct(AdministratorService $administratorService)
+    {
+        $this->administratorService = $administratorService;
+    }
+
+    /**
      * @Route("/index", name="beast_admin_administrator_index")
-     * @param Request $request
      *
      * @return Response
-     *  $query = $this->getRepository(Administrator::class)->createQueryBuilder('a');
-     *      ->select('a', 'b')
-     *      ->leftJoin('a.role', 'b');//preload role info
      */
-    public function indexAction(Request $request): Response
+    public function indexAction(): Response
     {
-        /* @var QueryBuilder $query */
-        $query = $this->getRepository(Administrator::class)->createQueryBuilder('a');
-
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query->getQuery(), $request->get('page', 1));
-
         return $this->render(
             '@BeastEasyAdmin/resources/admin/administrator/index.html.twig',
-            array(
-                'pagination' => $pagination,
-            )
+            $this->administratorService->getPagination()
         );
     }
 
@@ -100,33 +107,13 @@ class AdministratorController extends BaseController
      *     defaults={"id" = NULL},
      *     name="beast_admin_administrator_change_active_status"
      * )
-     * @param Request $request
      * Method(POST)
      *
      * @return JsonResponse
      */
-    public function changeActiveStatusAction(Request $request): JsonResponse
+    public function changeActiveStatusAction(): JsonResponse
     {
-        $id = $request->get('id');
-        $object = $this->getRepository(Administrator::class)->find($id);
-
-        $response = array('status' => Util::ID_INACTIVE);
-        if ($object) {
-            if ($object->getIsActive() == Util::ID_ACTIVE) {
-                $object->setIsActive(Util::ID_INACTIVE);
-            } else {
-                $object->setIsActive(Util::ID_ACTIVE);
-            }
-
-            $em = $this->getObjectManager();
-            $em->persist($object);
-            $em->flush();
-
-            $response['status'] = Util::ID_ACTIVE;
-            $response['isActive'] = $object->getIsActive();
-        }
-
-        return new JsonResponse($response);
+        return $this->json($this->administratorService->changeActiveStatus());
     }
 
     /**
