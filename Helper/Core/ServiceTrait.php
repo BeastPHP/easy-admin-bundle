@@ -14,14 +14,21 @@ namespace Beast\EasyAdminBundle\Helper\Core;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
 
+/**
+ * Trait ServiceTrait
+ *
+ * @package Beast\EasyAdminBundle\Helper\Core
+ */
 trait ServiceTrait
 {
     /**
      * @var ManagerRegistry
      */
     protected $managerRegistry;
+
     /**
      * @var PaginatorInterface
      */
@@ -41,6 +48,11 @@ trait ServiceTrait
      * @var null
      */
     protected $entityClass;
+
+    /**
+     * @var EntityRepository
+     */
+    protected $repository;
 
     /**
      * @param $entityName

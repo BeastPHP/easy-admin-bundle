@@ -32,11 +32,14 @@ abstract class BaseService
         ContainerInterface $container,
         $entityClass = null
     ) {
+        $this->managerRegistry = $container->get('doctrine');
         $this->request = $container->get('request_stack')->getCurrentRequest();
         $this->paginator = $container->get('knp_paginator');
-        $this->managerRegistry = $container->get('doctrine');
 
-        $this->em = $this->managerRegistry->getManagerForClass($entityClass);
-        $this->entityClass = $entityClass;
+        if (!is_null($entityClass)) {
+            $this->em = $this->managerRegistry->getManagerForClass($entityClass);
+            $this->repository = $this->managerRegistry->getRepository($entityClass);
+            $this->entityClass = $entityClass;
+        }
     }
 }

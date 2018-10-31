@@ -14,10 +14,13 @@ namespace Beast\EasyAdminBundle\Service\Administrator;
 use Beast\EasyAdminBundle\Entity\Authorization\Administrator;
 use Beast\EasyAdminBundle\Helper\Util;
 use Beast\EasyAdminBundle\Service\BaseService;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class AdministratorService
+ *
+ * @package Beast\EasyAdminBundle\Service\Administrator
+ */
 class AdministratorService extends BaseService
 {
     /**
@@ -39,11 +42,7 @@ class AdministratorService extends BaseService
      */
     public function getPagination(): array
     {
-        /* @var EntityRepository $repository */
-        $repository = $this->getRepository();
-
-        /* @var QueryBuilder $query */
-        $query = $repository->createQueryBuilder('a');
+        $query = $this->repository->createQueryBuilder('a');
         $pagination = $this->paginate($query->getQuery(), $this->request->get('page', 1));
 
         return [
@@ -57,7 +56,7 @@ class AdministratorService extends BaseService
     public function changeActiveStatus(): array
     {
         $id = $this->request->get('id');
-        $object = $this->getRepository()->find($id);
+        $object = $this->repository->find($id);
 
         $response = ['status' => Util::ID_INACTIVE];
         if ($object) {
