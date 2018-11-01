@@ -1,7 +1,9 @@
 {
   "name": "beastphp/easy-admin-bundle",
   "description": "easy-admin-bundle",
-  "keywords": ["beast"],
+  "keywords": [
+    "beast"
+  ],
   "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
@@ -13,7 +15,8 @@
   "require": {
     "php": "^7.1",
     "beastphp/easy-geetest": "^1.0",
-    "symfony/framework-bundle": "^3.4|^4.0"
+    "symfony/framework-bundle": "^3.4|^4.0",
+    "gedmo/doctrine-extensions": "^2.4"
   },
   "require-dev": {
     "symfony/twig-bundle": "^3.4|^4.0"

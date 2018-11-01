@@ -91,7 +91,6 @@ abstract class BaseUser extends BaseEntity implements UserInterface, EquatableIn
      */
     private $currentLogin;
 
-
     /**
      * @return bool|null
      */
