@@ -11,9 +11,9 @@
 namespace Beast\EasyAdminBundle\Entity\Core;
 
 use Beast\EasyAdminBundle\Entity\Core\Traits\PrimaryKeyEntity;
+use Beast\EasyAdminBundle\Entity\Core\Traits\SoftDeleteableEntity;
 use Beast\EasyAdminBundle\Entity\Core\Traits\TimestampableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
