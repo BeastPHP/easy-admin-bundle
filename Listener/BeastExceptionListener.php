@@ -60,9 +60,7 @@ class BeastExceptionListener
     {
         if ($exception instanceof NotFoundHttpException) {
             return new RedirectResponse(
-                $this->container->get('router')->generate('beast_core_page_for_404'),
-                $exception->getStatusCode()
-            );
+                $this->container->get('router')->generate('beast_core_page_for_404'));
         }
 
         if ($exception instanceof ExceptionExtend) {
