@@ -8,6 +8,7 @@ use Beast\EasyAdminBundle\Helper\Rest\RestBundleHelper;
 use FOS\RestBundle\View\View;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,15 +22,24 @@ class BeastExceptionListener
 {
     use ContainerAwareTrait;
 
+    /**
+     * @var Environment
+     */
     protected $twig;
+
+    /**
+     * @var bool
+     */
     protected $debug;
 
     /**
+     * @param ContainerInterface $container
      * @param Environment $twig
      * @param bool $debug Show error (false) or exception (true) pages by default
      */
-    public function __construct(Environment $twig, $debug)
+    public function __construct(ContainerInterface $container, Environment $twig, $debug)
     {
+        $this->setContainer($container);
         $this->twig = $twig;
         $this->debug = $debug;
     }
@@ -125,6 +135,7 @@ class BeastExceptionListener
      * @param bool $showException
      *
      * @return string
+     * @throws \Twig_Error_Loader
      */
     protected function findTemplate(Request $request, $format, $code, $showException)
     {
@@ -154,6 +165,13 @@ class BeastExceptionListener
     }
 
     // to be removed when the minimum required version of Twig is >= 3.0
+
+    /**
+     * @param $template
+     *
+     * @return bool
+     * @throws \Twig_Error_Loader
+     */
     protected function templateExists($template)
     {
         $template = (string)$template;
