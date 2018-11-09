@@ -8,8 +8,10 @@ use Beast\EasyAdminBundle\Helper\Rest\RestBundleHelper;
 use FOS\RestBundle\View\View;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -42,9 +44,17 @@ class BeastExceptionListener
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
+     * @throws \Exception
      */
     public function showAction(Request $request, $exception, DebugLoggerInterface $logger = null, $format = 'json')
     {
+        if ($exception instanceof NotFoundHttpException) {
+            return new RedirectResponse(
+                $this->container->get('router')->generate('beast_core_page_for_404'),
+                $exception->getCode()
+            );
+        }
+
         if ($exception instanceof ExceptionExtend) {
             $viewHandler = $this->container->get('fos_rest.view_handler');
             $message = unserialize($exception->getMessage());
@@ -78,16 +88,18 @@ class BeastExceptionListener
         ); // As opposed to an additional parameter, this maintains BC
 
         $code = $exception->getStatusCode();
-        return new Response($this->twig->render(
-            (string)$this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
-            array(
-                'status_code' => $code,
-                'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
-                'exception' => $exception,
-                'logger' => $logger,
-                'currentContent' => $currentContent,
+        return new Response(
+            $this->twig->render(
+                (string)$this->findTemplate($request, $request->getRequestFormat(), $code, $showException),
+                array(
+                    'status_code' => $code,
+                    'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+                    'exception' => $exception,
+                    'logger' => $logger,
+                    'currentContent' => $currentContent,
+                )
             )
-        ));
+        );
     }
 
     /**
