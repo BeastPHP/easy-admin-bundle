@@ -11,6 +11,7 @@
 namespace Beast\EasyAdminBundle\Service;
 
 use Beast\EasyAdminBundle\Helper\Core\ServiceTrait;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,6 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class BaseService
 {
+    use ContainerAwareTrait;
     use ServiceTrait;
 
     /**
@@ -32,9 +34,11 @@ abstract class BaseService
         ContainerInterface $container,
         $entityClass = null
     ) {
-        $this->managerRegistry = $container->get('doctrine');
-        $this->request = $container->get('request_stack')->getCurrentRequest();
-        $this->paginator = $container->get('knp_paginator');
+        $this->setContainer($container);
+
+        $this->managerRegistry = $this->container->get('doctrine');
+        $this->request = $this->container->get('request_stack')->getCurrentRequest();
+        $this->paginator = $this->container->get('knp_paginator');
 
         if (!is_null($entityClass)) {
             $this->em = $this->managerRegistry->getManagerForClass($entityClass);

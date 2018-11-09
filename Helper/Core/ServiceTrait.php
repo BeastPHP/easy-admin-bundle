@@ -16,11 +16,13 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Trait ServiceTrait
  *
  * @package Beast\EasyAdminBundle\Helper\Core
+ * @property ContainerInterface $container
  */
 trait ServiceTrait
 {
@@ -101,5 +103,36 @@ trait ServiceTrait
     public function paginate($target, $page = 1, $limit = 10, array $options = array())
     {
         return $this->paginator->paginate($target);
+    }
+
+    /**
+     * Get a user from the Security Token Storage.
+     *
+     * @return mixed
+     *
+     * @throws \LogicException If SecurityBundle is not available
+     *
+     * @see TokenInterface::getUser()
+     *
+     * @final
+     */
+    protected function getUser()
+    {
+        if (!$this->container->has('security.token_storage')) {
+            throw new \LogicException(
+                'The SecurityBundle is not registered in your application. Try running "composer require symfony/security-bundle".'
+            );
+        }
+
+        if (null === $token = $this->container->get('security.token_storage')->getToken()) {
+            return null;
+        }
+
+        if (!\is_object($user = $token->getUser())) {
+            // e.g. anonymous authentication
+            return null;
+        }
+
+        return $user;
     }
 }
