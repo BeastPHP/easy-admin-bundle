@@ -406,7 +406,7 @@
     <div class="form-group">
         {{- form_label(form) -}}
         {%- set type = type|default('text') -%}
-        <div class="col-sm-4">
+        <div class="{% if attr.class is defined %}{{ attr.class }}{% else %}col-sm-5{% endif %}">
             {{- form_widget(form) -}}
             {{- form_errors(form) -}}
         </div>
