@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Beast\EasyAdminBundle\Helper\Core;
 
+use Beast\EasyAdminBundle\Entity\Core\BaseUser;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -55,6 +56,11 @@ trait ServiceTrait
      * @var EntityRepository
      */
     protected $repository;
+
+    /**
+     * @var BaseUser
+     */
+    protected $user;
 
     /**
      * @param $entityName

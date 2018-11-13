@@ -10,6 +10,7 @@
 
 namespace Beast\EasyAdminBundle\Service;
 
+use Beast\EasyAdminBundle\Entity\Core\BaseUser;
 use Beast\EasyAdminBundle\Helper\Core\ServiceTrait;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -39,6 +40,15 @@ abstract class BaseService
         $this->managerRegistry = $this->container->get('doctrine');
         $this->request = $this->container->get('request_stack')->getCurrentRequest();
         $this->paginator = $this->container->get('knp_paginator');
+
+        $user = $this->getUser();
+        if ($user instanceof BaseUser) {
+            $this->user = $user;
+        } else {
+            $this->user = new class extends BaseUser
+            {
+            };
+        }
 
         if (!is_null($entityClass)) {
             $this->em = $this->managerRegistry->getManagerForClass($entityClass);
