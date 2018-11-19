@@ -108,7 +108,7 @@ trait ServiceTrait
      */
     public function paginate($target, $page = 1, $limit = 10, array $options = array())
     {
-        return $this->paginator->paginate($target);
+        return $this->paginator->paginate($target, $page, $limit, $options);
     }
 
     /**
