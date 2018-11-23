@@ -17,28 +17,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AuthorizationController extends BaseController
 {
     /**
+     * @param AuthenticationUtils $authenticationUtils
+     *
      * @Route("/login", name="beast_admin_authorization_login")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function loginAction(): Response
+    public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirect($this->generateUrl('beast_admin_authorization_dashboard'));
-        }
-
         $geetestConfig = $this->container->getParameter('geetest');
-        $authUtils = $this->get('security.authentication_utils');
         return $this->render(
             '@BeastEasyAdmin/resources/admin/authorization/login.html.twig',
-            array(
-                'last_username' => $authUtils->getLastUsername(),
-                'error' => $authUtils->getLastAuthenticationError(),
+            [
+                'last_username' => $authenticationUtils->getLastUsername(),
+                'error' => $authenticationUtils->getLastAuthenticationError(),
                 'is_open_captcha' => $geetestConfig['is_open'] ?? false,
-            )
+            ]
         );
     }
 
@@ -64,12 +62,12 @@ class AuthorizationController extends BaseController
     {
         return $this->render(
             '@BeastEasyAdmin/resources/admin/authorization/dashboard.html.twig',
-            array(
+            [
                 'user' => $this->getUser(),
                 'phpVersion' => PHP_VERSION,
                 'symfonyVersion' => Kernel::VERSION,
                 'remainDays' => Util::getRemainDays(),
-            )
+            ]
         );
     }
 }
