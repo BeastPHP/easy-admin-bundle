@@ -13,7 +13,6 @@ namespace Beast\EasyAdminBundle\Controller\Admin\Authorization;
 
 use Beast\EasyAdminBundle\Controller\Admin\BaseController;
 use Beast\EasyAdminBundle\Helper\Util;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Annotation\Route;
