@@ -4,7 +4,7 @@
     <title>管理后台 - Beast</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content=""/>
-    <meta http-equiv="Cache-Control" content="max-age=7200">
+    <meta content="max-age=7200" http-equiv="Cache-Control">
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ asset('/bundles/beasteasyadmin/style.css') }}"/>
 </head>
@@ -53,6 +53,11 @@
 </div>
 <script crossorigin="anonymous" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
         src="//lib.baomitu.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    if (typeof module === 'object') {
+        window.jQuery = window.$ = module.exports;
+    }
+</script>
 <script src="{{ asset('/bundles/beasteasyadmin/js/geetest/gt.js') }}"></script>
 <script type="text/javascript">
     {% if is_open_captcha %}
