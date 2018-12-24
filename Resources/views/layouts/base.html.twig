@@ -9,19 +9,23 @@
     <meta name="keyword" content="">
     <meta charset="utf-8">
     <title>{% block title %}后台管理 - Beast{% endblock %}</title>
-    <!-- Icons -->
-    <link href="{{ asset('bundles/beasteasyadmin/css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/beasteasyadmin/css/simple-line-icons.css') }}" rel="stylesheet">
 
-    <!-- Main styles for this application -->
-    <link href="{{ asset('bundles/beasteasyadmin/css/style-prime.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/beasteasyadmin/css/pace.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/beasteasyadmin/css/gauge.min.css') }}" rel="stylesheet">
+    {% block default_style %}
+        <!-- Icons -->
+        <link href="{{ asset('bundles/beasteasyadmin/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/beasteasyadmin/css/simple-line-icons.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('bundles/beasteasyadmin/css/toastr.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/beasteasyadmin/css/buttons.css') }}" rel="stylesheet">
-    <link crossorigin="anonymous" integrity="sha384-hRwXDtVAhUqyTBKx7SIJpNZQT2zJWbV0jhpY/bjYDFjdZKuBYDNIIKvBN66GiNpr"
-          href="//lib.baomitu.com/jquery-confirm/3.2.3/jquery-confirm.min.css" rel="stylesheet">
+        <!-- Main styles for this application -->
+        <link href="{{ asset('bundles/beasteasyadmin/css/style-prime.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/beasteasyadmin/css/pace.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/beasteasyadmin/css/gauge.min.css') }}" rel="stylesheet">
+
+        <link href="{{ asset('bundles/beasteasyadmin/css/toastr.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/beasteasyadmin/css/buttons.css') }}" rel="stylesheet">
+        <link crossorigin="anonymous"
+              integrity="sha384-hRwXDtVAhUqyTBKx7SIJpNZQT2zJWbV0jhpY/bjYDFjdZKuBYDNIIKvBN66GiNpr"
+              href="//lib.baomitu.com/jquery-confirm/3.2.3/jquery-confirm.min.css" rel="stylesheet">
+    {% endblock %}
     {% block style %}{% endblock %}
 </head>
 
@@ -57,36 +61,37 @@
     {% endblock %}
 </footer>
 
-<script crossorigin="anonymous" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
-        src="//lib.baomitu.com/jquery/1.12.4/jquery.min.js"></script>
-<script crossorigin="anonymous" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-        src="//lib.baomitu.com/tether/1.4.0/js/tether.min.js"></script>
-<script crossorigin="anonymous" integrity="sha384-FX3ba7M2tUloKIoPcASdZCs4mrOfRodbeZgoRknxYINiMpnoiuuDaeLLRooW/pWn"
-        src="//lib.baomitu.com/jquery-confirm/3.2.3/jquery-confirm.min.js"></script>
-<script crossorigin="anonymous" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-        src="//lib.baomitu.com/popper.js/1.12.3/umd/popper.min.js"></script>
+{% block default_script %}
+    <script crossorigin="anonymous" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+            src="//lib.baomitu.com/jquery/1.12.4/jquery.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            src="//lib.baomitu.com/tether/1.4.0/js/tether.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-FX3ba7M2tUloKIoPcASdZCs4mrOfRodbeZgoRknxYINiMpnoiuuDaeLLRooW/pWn"
+            src="//lib.baomitu.com/jquery-confirm/3.2.3/jquery-confirm.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            src="//lib.baomitu.com/popper.js/1.12.3/umd/popper.min.js"></script>
 
-<!-- Plugins and scripts required by all views -->
-<script src="{{ asset('bundles/beasteasyadmin/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('bundles/beasteasyadmin/js/app.js') }}"></script>
-<script src="{{ asset('bundles/beasteasyadmin/js/toastr.min.js') }}"></script>
-<script src="{{ asset('bundles/beasteasyadmin/js/util.js') }}"></script>
-<script src="{{ asset('bundles/beasteasyadmin/js/layer.js') }}"></script>
-<script src="{{ asset('bundles/beasteasyadmin/js/pace.min.js') }}"></script>
-<script src="{{ asset('bundles/beasteasyadmin/js/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('bundles/beasteasyadmin/js/core.min.js') }}"></script>
-
+    <!-- Plugins and scripts required by all views -->
+    <script src="{{ asset('bundles/beasteasyadmin/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/beasteasyadmin/js/app.js') }}"></script>
+    <script src="{{ asset('bundles/beasteasyadmin/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('bundles/beasteasyadmin/js/util.js') }}"></script>
+    <script src="{{ asset('bundles/beasteasyadmin/js/layer.js') }}"></script>
+    <script src="{{ asset('bundles/beasteasyadmin/js/pace.min.js') }}"></script>
+    <script src="{{ asset('bundles/beasteasyadmin/js/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('bundles/beasteasyadmin/js/core.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {% for flash_type,flashMessages in app.session.flashBag.all() %}
+            {% if flash_type == 'error' %}
+            toastr.error("{{ flashMessages['0'] }}", "消息提示");
+            {% else %}
+            toastr.success("{{ flashMessages['0'] }}", "消息提示");
+            {% endif %}
+            {% endfor %}
+        });
+    </script>
+{% endblock %}
 {% block script %}{% endblock %}
-<script type="text/javascript">
-    $(document).ready(function () {
-        {% for flash_type,flashMessages in app.session.flashBag.all() %}
-        {% if flash_type == 'error' %}
-        toastr.error("{{ flashMessages['0'] }}", "消息提示");
-        {% else %}
-        toastr.success("{{ flashMessages['0'] }}", "消息提示");
-        {% endif %}
-        {% endfor %}
-    });
-</script>
 </body>
 </html>
